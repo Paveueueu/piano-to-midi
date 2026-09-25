@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "title": "Piano to MIDI: turn a piano recording into MIDI",
+    "description": "Upload a piano recording and get an editable MIDI file with notes, dynamics and pedal. Tune the transcription by hand or let it pick the settings."
+  },
+  "app": {
+    "tagline": "Turn a piano recording into MIDI you can edit.",
+    "lead": "Notes, dynamics and sustain pedal, ready for your DAW. Adjust the transcription to the piece, or let it choose the settings."
+  },
+  "lang": {
+    "label": "Language"
+  },
+  "api": {
+    "label": "Server",
+    "ok": "ready",
+    "down": "unreachable",
+    "checking": "checking…"
+  },
+  "footer": {
+    "privacy": "Recordings are processed and deleted; nothing is kept.",
+    "model": "Transcription by the Transkun model (MIT)."
+  }
+}
