@@ -4,8 +4,14 @@ version = "0.1.0"
 description = "Piano to MIDI API: transcribes piano recordings into editable MIDI."
 requires-python = ">=3.12"
 dependencies = [
+    "av>=19.0.2",
     "fastapi>=0.162.2",
+    "numpy>=2.5.4",
+    "pretty-midi>=0.2.11.post0",
     "pydantic-settings>=2.16.2",
+    "python-multipart>=0.0.33",
+    "torch>=2.15.0",
+    "transkun>=2.0.1",
     "uvicorn[standard]>=0.54.0",
 ]
 
@@ -30,3 +36,11 @@ dev = [
     "mypy>=2.4.1",
     "ruff>=0.17.4",
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
