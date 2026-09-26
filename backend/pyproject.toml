@@ -32,8 +32,8 @@ plugins = ["pydantic.mypy"]
 files = ["src"]
 
 [[tool.mypy.overrides]]
-# Transkun and its config loader ship without type hints.
-module = ["transkun.*", "moduleconf"]
+# Transkun, its config loader and pretty_midi ship without type hints.
+module = ["transkun.*", "moduleconf", "pretty_midi"]
 ignore_missing_imports = true
 
 [dependency-groups]
