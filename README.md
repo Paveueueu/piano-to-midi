@@ -1,6 +1,6 @@
 # Piano to MIDI
 
-Turns a piano recording into a MIDI file with notes, dynamics and pedal, ready to edit in a DAW.
+Turns a piano recording into a MIDI file with notes, dynamics and pedal, ready to edit in a DAW. Transcription runs the [Transkun](https://github.com/Yujia-Yan/Transkun) model on the CPU.
 
 ```bash
 cd backend && uv sync && uv run uvicorn pianotomidi.main:app --port 8100
