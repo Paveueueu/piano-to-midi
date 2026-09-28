@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     max_upload_mb: int = 50
     max_audio_minutes: float = 10.0
 
+    job_ttl_minutes: float = 60.0
+
 
 @lru_cache
 def get_settings() -> Settings:
