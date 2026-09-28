@@ -124,7 +124,7 @@ def get_midi(request: Request, job_id: str) -> Response:
     if job.status is not Status.DONE or job.result is None:
         raise HTTPException(status.HTTP_409_CONFLICT, "not_ready")
     name = PurePath(job.filename).stem or "transcription"
-    safe = "".join(c if c.isalnum() or c in "-_ " else "_" for c in name)[:80]
+    safe = "".join(c if c.isalnum() or c in "-_ ()[]" else "_" for c in name)[:80]
     return Response(
         content=to_midi(job.result, name=safe),
         media_type="audio/midi",
