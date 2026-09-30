@@ -18,7 +18,7 @@ def create_app() -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        model = await asyncio.to_thread(TranskunTranscriber)
+        model = await asyncio.to_thread(TranskunTranscriber, None, settings.note_bias)
         jobs = JobStore(
             model, max_seconds=settings.max_audio_minutes * 60, ttl_seconds=settings.job_ttl_minutes * 60
         )

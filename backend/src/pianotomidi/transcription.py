@@ -28,6 +28,8 @@ class Note:
     end: float
     pitch: int  # MIDI, 21 (A0) to 108 (C8)
     velocity: int  # 1-127
+    # CRF score margin over silence, before bias; around 0 the model was undecided.
+    confidence: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -52,9 +54,13 @@ class Transcriber(Protocol):
 
 
 class TranskunTranscriber:
-    """Loads the model once; transcribes one recording at a time (the lock keeps CPU use sane)."""
+    """Loads the model once; one transcription at a time.
 
-    def __init__(self, threads: int | None = None) -> None:
+    `bias` is added to note scores before decoding (pedals unbiased), so the confidence
+    filter can choose the sensitivity later without running the network again.
+    """
+
+    def __init__(self, threads: int | None = None, bias: float = 0.0) -> None:
         import moduleconf
 
         pretrained = resources.files("transkun") / "pretrained"
@@ -67,7 +73,27 @@ class TranskunTranscriber:
         if threads:
             torch.set_num_threads(threads)
         self.sample_rate: int = int(self._model.fs)
+        self.bias = bias
         self._lock = threading.Lock()
+        self._windows: list[_Window] = []
+        original = self._model.processFramesBatch
+
+        def scored(frames: torch.Tensor) -> tuple[Any, Any]:
+            crf, ctx = original(frames)
+            if self.bias:
+                crf.score[..., _N_PEDAL_TRACKS:] += self.bias
+            window = _Window(crf)
+            self._windows.append(window)
+            decode = crf.decode
+
+            def remembering_decode(*args: Any, **kwargs: Any) -> Any:
+                window.path = decode(*args, **kwargs)
+                return window.path
+
+            crf.decode = remembering_decode
+            return crf, ctx
+
+        self._model.processFramesBatch = scored
 
     def transcribe(self, audio: Audio, progress: Progress) -> Transcription:
         if audio.rate != self.sample_rate:
@@ -101,6 +127,7 @@ class TranskunTranscriber:
             if piece.shape[-1] < segment:
                 piece = F.pad(piece, (0, segment - piece.shape[-1]))
             frames = makeFrame(piece, m.hopSize, m.windowSize)
+            self._windows.clear()
             events, last = m.transcribeFrames(
                 frames.unsqueeze(0),
                 forcedStartPos=start_pos,
@@ -109,6 +136,7 @@ class TranskunTranscriber:
                 lastFrameIdx=round(segment / m.hopSize),
             )
             start_pos = [max(k - int(step / m.hopSize), 0) for k in last]
+            self._attach_confidence(events[0])
 
             for e in events[0]:
                 e.start = max(e.start + begin_time, 0)
@@ -132,6 +160,41 @@ class TranskunTranscriber:
         finished = [e for track in by_pitch.values() for e in track if e.hasOffset]
         return list(resolveOverlapping(finished))
 
+    def _attach_confidence(self, events: list[Any]) -> None:
+        """Match each note to the decoded interval of the same pitch with the nearest start."""
+        if not self._windows or self._windows[-1].path is None:
+            return
+        window = self._windows[-1]
+        frame = self._model.hopSize / self._model.fs
+        tracks = self._model.targetMIDIPitch
+        for e in events:
+            if e.pitch <= 0:
+                continue
+            k = tracks.index(e.pitch)
+            intervals = window.path[k]
+            if not intervals:
+                continue
+            begin, end = min(intervals, key=lambda iv: abs(iv[0] - e.start / frame))
+            e.confidence = window.margin(begin, end, k) - self.bias
+
+
+# Transkun's first two tracks are the pedals; the 88 keys follow.
+_N_PEDAL_TRACKS = 2
+
+
+class _Window:
+    """One window's CRF scores and, once decoded, its intervals per track."""
+
+    def __init__(self, crf: Any) -> None:
+        self.score = crf.score  # [end, begin, track]
+        self.noise = crf.noiseScore  # [t, track]: staying silent from frame t to t + 1
+        self.path: Any = None
+
+    def margin(self, begin: int, end: int, track: int) -> float:
+        note = float(self.score[end, begin, track])
+        silence = float(self.noise[begin:end, track].sum())
+        return note - silence
+
 
 def _to_transcription(events: list[Any], seconds: float) -> Transcription:
     notes, pedals = [], []
@@ -140,7 +203,8 @@ def _to_transcription(events: list[Any], seconds: float) -> Transcription:
         if end <= start:
             continue
         if e.pitch > 0:
-            notes.append(Note(start, end, int(e.pitch), max(1, min(127, int(e.velocity)))))
+            confidence = float(getattr(e, "confidence", 0.0))
+            notes.append(Note(start, end, int(e.pitch), max(1, min(127, int(e.velocity))), confidence))
         elif e.pitch in _PEDALS:
             pedals.append(Pedal(start, end, _PEDALS[e.pitch], max(1, min(127, int(e.velocity)))))
     notes.sort(key=lambda n: (n.start, n.pitch))

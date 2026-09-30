@@ -14,6 +14,10 @@ class Settings(BaseSettings):
     max_upload_mb: int = 50
     max_audio_minutes: float = 10.0
 
+    # Added to note scores before decoding, so the confidence filter can add notes
+    # without running the model again.
+    note_bias: float = 2.0
+
     job_ttl_minutes: float = 60.0
 
 
