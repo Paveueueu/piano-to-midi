@@ -53,11 +53,16 @@ def detect(starts: list[float], weights: list[float] | None = None) -> Beat | No
         period = lag + (0.5 * (a - c) / denom if denom else 0.0)
     else:
         period = float(lag)
-    bpm = 60.0 * RATE / period
+    bpm = round(float(60.0 * RATE / period), 2)
+    return Beat(bpm=bpm, first=phase(starts, weights, bpm))
 
-    # Phase: the offset where onsets pile up most when folded onto the beat.
+
+def phase(starts: list[float], weights: list[float] | None, bpm: float) -> float:
+    """Where the beats of a known tempo fall: the offset onsets pile up at when folded onto it."""
+    if not starts:
+        return 0.0
+    weights = weights or [1.0] * len(starts)
     beat = 60.0 / bpm
     angles = 2 * np.pi * (np.asarray(starts) % beat) / beat
-    mean = np.sum(np.asarray(weights) * np.exp(1j * angles))
-    first = (np.angle(mean) % (2 * np.pi)) / (2 * np.pi) * beat
-    return Beat(bpm=round(float(bpm), 2), first=float(first))
+    mean = np.sum(np.asarray(weights) ** 2 * np.exp(1j * angles))
+    return float((np.angle(mean) % (2 * np.pi)) / (2 * np.pi) * beat)

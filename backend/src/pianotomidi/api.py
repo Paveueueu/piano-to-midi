@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 from pianotomidi.jobs import Job, JobStore, QueueFullError, Status
 from pianotomidi.midi import to_midi
+from pianotomidi.options import Options, arrange
 
 router = APIRouter(prefix="/jobs", tags=["jobs"])
 
@@ -126,7 +127,7 @@ def get_midi(request: Request, job_id: str) -> Response:
     name = PurePath(job.filename).stem or "transcription"
     safe = "".join(c if c.isalnum() or c in "-_ ()[]" else "_" for c in name)[:80]
     return Response(
-        content=to_midi(job.result, name=safe),
+        content=to_midi(arrange(job.result, Options()), name=safe),
         media_type="audio/midi",
         headers={"Content-Disposition": f'attachment; filename="{safe}.mid"'},
     )

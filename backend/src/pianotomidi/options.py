@@ -6,6 +6,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from pianotomidi import tempo
 from pianotomidi.transcription import Note, Pedal, Transcription
 
 LOWEST_KEY, HIGHEST_KEY = 21, 108  # A0, C8
@@ -34,6 +35,21 @@ class Options(BaseModel):
         "the pedal), or left out",
     )
 
+    tempo: Literal["real_time", "detected"] = Field(
+        "real_time",
+        description="real_time: 120 BPM with timing untouched, so the MIDI lines up with the recording; "
+        "detected: the piece's own tempo, shifted so its beats fall on the DAW's bar lines",
+    )
+    bpm: float | None = Field(None, ge=30, le=260, description="Tempo to use instead of the detected one")
+    grid: Literal["off", "1/8", "1/16", "1/32"] = Field(
+        "off", description="Snap notes to this grid (uses the piece's tempo, as with tempo=detected)"
+    )
+    quantize_strength: int = Field(100, ge=0, le=100, description="How far notes move toward the grid, in %")
+
+
+REAL_TIME_BPM = 120.0
+_DIVISIONS = {"1/8": 2, "1/16": 4, "1/32": 8}
+
 
 @dataclass(frozen=True)
 class Arrangement:
@@ -42,6 +58,9 @@ class Arrangement:
     notes: list[Note]
     pedals: list[Pedal]
     seconds: float
+    bpm: float  # tempo written into the MIDI file
+    shift: float = 0.0  # seconds added to every event so beats land on bar lines
+    detected_bpm: float | None = None  # what the notes suggest, shown to the user
 
 
 def arrange(transcription: Transcription, options: Options) -> Arrangement:
@@ -52,7 +71,41 @@ def arrange(transcription: Transcription, options: Options) -> Arrangement:
         notes = hold_with_pedal(notes, [p for p in pedals if p.kind == "sustain"])
     if options.pedal != "controller":
         pedals = []
-    return Arrangement(notes=notes, pedals=pedals, seconds=transcription.seconds)
+
+    starts = [n.start for n in transcription.notes]
+    weights = [n.velocity / 127 for n in transcription.notes]
+    detected = tempo.detect(starts, weights)
+    detected_bpm = detected.bpm if detected else None
+    on_grid = options.tempo == "detected" or options.grid != "off"
+    bpm = options.bpm or detected_bpm
+    if not on_grid or bpm is None:
+        return Arrangement(notes, pedals, transcription.seconds, REAL_TIME_BPM, 0.0, detected_bpm)
+
+    beat = 60.0 / bpm
+    first = detected.first if detected and not options.bpm else tempo.phase(starts, weights, bpm)
+    shift = (-first) % beat
+    notes = [replace(n, start=n.start + shift, end=n.end + shift) for n in notes]
+    pedals = [replace(p, start=p.start + shift, end=p.end + shift) for p in pedals]
+    if options.grid != "off":
+        step = beat / _DIVISIONS[options.grid]
+        strength = options.quantize_strength / 100
+        notes = [_snap_note(n, step, strength) for n in notes]
+        pedals = [_snap_pedal(p, step, strength) for p in pedals]
+    return Arrangement(notes, pedals, transcription.seconds + shift, bpm, shift, detected_bpm)
+
+
+def _snap(t: float, step: float, strength: float) -> float:
+    return t + strength * (round(t / step) * step - t)
+
+
+def _snap_note(n: Note, step: float, strength: float) -> Note:
+    start, end = _snap(n.start, step, strength), _snap(n.end, step, strength)
+    return replace(n, start=start, end=max(end, start + step * max(strength, 0.25)))
+
+
+def _snap_pedal(p: Pedal, step: float, strength: float) -> Pedal:
+    start, end = _snap(p.start, step, strength), _snap(p.end, step, strength)
+    return replace(p, start=start, end=max(end, start + step))
 
 
 def filter_notes(notes: list[Note], options: Options) -> list[Note]:
