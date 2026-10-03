@@ -1,6 +1,6 @@
 """Transcription settings, applied to finished notes so the model never runs again."""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from statistics import median
 from typing import Literal
 
@@ -46,6 +46,16 @@ class Options(BaseModel):
     )
     quantize_strength: int = Field(100, ge=0, le=100, description="How far notes move toward the grid, in %")
 
+    hands: Literal["one_track", "split"] = Field(
+        "one_track", description="One piano track, or left and right hand on separate tracks"
+    )
+    split_key: int | None = Field(
+        None,
+        ge=LOWEST_KEY,
+        le=HIGHEST_KEY,
+        description="Lowest key of the right hand; empty to choose it from the notes",
+    )
+
 
 REAL_TIME_BPM = 120.0
 _DIVISIONS = {"1/8": 2, "1/16": 4, "1/32": 8}
@@ -61,9 +71,24 @@ class Arrangement:
     bpm: float  # tempo written into the MIDI file
     shift: float = 0.0  # seconds added to every event so beats land on bar lines
     detected_bpm: float | None = None  # what the notes suggest, shown to the user
+    left: list[Note] = field(default_factory=list)  # left hand, when hands are split (`notes` is the right)
+    split_key: int | None = None  # where the hands were split
 
 
 def arrange(transcription: Transcription, options: Options) -> Arrangement:
+    arrangement = _arrange_time(transcription, options)
+    if options.hands == "one_track":
+        return arrangement
+    split = options.split_key or choose_split(arrangement.notes)
+    return replace(
+        arrangement,
+        notes=[n for n in arrangement.notes if n.pitch >= split],
+        left=[n for n in arrangement.notes if n.pitch < split],
+        split_key=split,
+    )
+
+
+def _arrange_time(transcription: Transcription, options: Options) -> Arrangement:
     notes = filter_notes(transcription.notes, options)
     notes = set_velocity(notes, options)
     pedals = list(transcription.pedals)
@@ -146,3 +171,27 @@ def hold_with_pedal(notes: list[Note], sustain: list[Pedal]) -> list[Note]:
         end = min(pedal.end, later[0]) if later else pedal.end
         out.append(replace(n, end=max(n.end, end)))
     return out
+
+
+SPLIT_RANGE = (52, 67)  # E3 to G4: where pianists' hands usually meet
+
+
+def choose_split(notes: list[Note]) -> int:
+    """Split key between the hands (Otsu's method on the pitch histogram); middle C if unclear."""
+    if len(notes) < 2:
+        return 60
+    counts = [0] * 128
+    for n in notes:
+        counts[n.pitch] += 1
+    total = len(notes)
+    best, best_score = 60, -1.0
+    for split in range(SPLIT_RANGE[0], SPLIT_RANGE[1] + 1):
+        low = [p for p in range(split) for _ in range(counts[p])]
+        high = [p for p in range(split, 128) for _ in range(counts[p])]
+        if not low or not high:
+            continue
+        w_low, w_high = len(low) / total, len(high) / total
+        between = w_low * w_high * (sum(high) / len(high) - sum(low) / len(low)) ** 2
+        if between > best_score:
+            best, best_score = split, between
+    return best
