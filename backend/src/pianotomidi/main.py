@@ -10,6 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pianotomidi.api import router as jobs_router
 from pianotomidi.config import get_settings
 from pianotomidi.jobs import JobStore
+from pianotomidi.options import Options
+from pianotomidi.presets import PRESETS
 from pianotomidi.transcription import TranskunTranscriber
 
 
@@ -46,6 +48,17 @@ def create_app() -> FastAPI:
     def limits() -> dict[str, float]:
         """What an upload may be, so the web app can check before sending."""
         return {"max_upload_mb": settings.max_upload_mb, "max_audio_minutes": settings.max_audio_minutes}
+
+    @app.get("/options", tags=["meta"])
+    def options() -> dict[str, object]:
+        """Every transcription setting (defaults and allowed values) and the ready-made presets."""
+        return {
+            "defaults": Options().model_dump(),
+            "schema": Options.model_json_schema(),
+            "presets": [
+                {"id": p.id, "changes": p.changes, "options": p.options().model_dump()} for p in PRESETS
+            ],
+        }
 
     return app
 
