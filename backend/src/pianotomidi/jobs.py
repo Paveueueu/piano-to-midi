@@ -2,6 +2,7 @@
 
 import asyncio
 import contextlib
+import logging
 import shutil
 import tempfile
 import time
@@ -11,7 +12,9 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from pathlib import Path
 
+from pianotomidi.analysis import noise_floor_db, semitone_spectrogram
 from pianotomidi.audio import AudioError, decode
+from pianotomidi.auto import Suggestion, suggest
 from pianotomidi.transcription import Transcriber, Transcription
 
 
@@ -32,6 +35,7 @@ class Job:
     error: str | None = None  # why it failed, e.g. "too_long", "not_audio"
     seconds: float | None = None  # length of the recording, once decoded
     result: Transcription | None = None
+    suggestion: Suggestion | None = None  # Auto settings, computed while the audio is at hand
     created_at: float = field(default_factory=time.monotonic)
     touched_at: float = field(default_factory=time.monotonic)
 
@@ -140,4 +144,8 @@ class JobStore:
             job.progress = fraction
 
         job.result = self._transcriber.transcribe(audio, report)
+        try:
+            job.suggestion = suggest(semitone_spectrogram(audio), noise_floor_db(audio), job.result)
+        except Exception:  # Auto is a bonus: the transcription stands without it
+            logging.getLogger(__name__).exception("auto settings failed for job %s", job.id)
         job.progress = 1.0

@@ -1,7 +1,7 @@
 """HTTP endpoints for transcription jobs."""
 
 from pathlib import Path, PurePath
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, File, HTTPException, Query, Request, Response, UploadFile, status
 from pydantic import BaseModel
@@ -16,6 +16,17 @@ router = APIRouter(prefix="/jobs", tags=["jobs"])
 CHUNK = 1024 * 1024
 
 
+class ReasonOut(BaseModel):
+    code: str
+    values: dict[str, Any]
+
+
+class AutoOut(BaseModel):
+    changes: dict[str, Any]  # only the settings Auto moved away from the defaults
+    options: Options  # the full settings to use
+    reasons: list[ReasonOut]
+
+
 class JobOut(BaseModel):
     id: str
     filename: str
@@ -26,6 +37,7 @@ class JobOut(BaseModel):
     seconds: float | None
     notes: int | None
     pedals: int | None
+    auto: bool  # Auto settings are ready
 
 
 class NoteOut(BaseModel):
@@ -73,6 +85,7 @@ def _out(store: JobStore, job: Job) -> JobOut:
         seconds=job.seconds,
         notes=len(job.result.notes) if job.result else None,
         pedals=len(job.result.pedals) if job.result else None,
+        auto=job.suggestion is not None,
     )
 
 
@@ -143,6 +156,21 @@ def get_notes(request: Request, job_id: str, options: Settings) -> NotesOut:
         split_key=a.split_key,
         notes=notes,
         pedals=[PedalOut(start=p.start, end=p.end, kind=p.kind, value=p.value) for p in a.pedals],
+    )
+
+
+@router.get("/{job_id}/auto", response_model=AutoOut)
+def get_auto(request: Request, job_id: str) -> AutoOut:
+    """Settings chosen for this recording, with the reason for each choice."""
+    store = _store(request)
+    _result(store, job_id)
+    suggestion = _job(store, job_id).suggestion
+    if suggestion is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "no_auto")
+    return AutoOut(
+        changes=suggestion.options.model_dump(exclude_defaults=True),
+        options=suggestion.options,
+        reasons=[ReasonOut(code=r.code, values=r.values) for r in suggestion.reasons],
     )
 
 
