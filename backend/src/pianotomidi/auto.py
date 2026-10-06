@@ -1,14 +1,8 @@
 """Auto settings and the reasons for them.
 
-- Sensitivity: the confidence threshold whose notes best explain the recording's spectrum
-  (analysis.fit). A threshold other than 0 must beat 0 clearly, so noise in the measure
-  doesn't move the setting.
-- Rhythm: if note starts sit close to a 1/8, 1/16 or 1/32 grid at the piece's tempo, the
-  piece is steady: write its tempo and quantise to the coarsest grid that fits. Otherwise
-  (rubato, free timing) keep real time, as quantising would distort the playing.
-- Hands: split only when low and high notes form two clearly separate groups.
-
-Reasons are codes with numbers; the web app turns them into sentences.
+- Sensitivity: the threshold whose notes best fit the spectrum (analysis.fit), in [-1, 0.5].
+- Rhythm: quantise only when note starts sit on a 1/8, 1/16 or 1/32 grid.
+- Hands: split only when low and high notes form two separate groups.
 """
 
 from dataclasses import dataclass, field
@@ -22,8 +16,8 @@ from pianotomidi.analysis import fit, noise_floor_db
 from pianotomidi.options import Options, choose_split
 from pianotomidi.transcription import Note, Transcription
 
-THRESHOLDS = (-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0)
-CLEAR_GAIN = 0.002  # fit gain needed to move sensitivity away from 0
+THRESHOLDS = (-1.0, -0.5, 0.0, 0.5)
+CLEAR_GAIN = 0.0002  # fit gain needed to move sensitivity away from 0
 GRIDS = (("1/8", 2), ("1/16", 4), ("1/32", 8))
 ON_GRID = 0.12  # median distance of onsets to the grid, as a fraction of a grid step
 MIN_NOTES_FOR_RHYTHM = 24
