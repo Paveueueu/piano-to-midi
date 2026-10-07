@@ -19,5 +19,23 @@
   "footer": {
     "privacy": "Recordings are processed and deleted; nothing is kept.",
     "model": "Transcription by the Transkun model (MIT)."
+  },
+  "upload": {
+    "drop": "Drop a piano recording here",
+    "choose": "Choose a file",
+    "formats": "MP3, M4A, WAV, FLAC or OGG",
+    "limits": "MP3, M4A, WAV, FLAC or OGG, up to {mb} MB and {minutes} minutes",
+    "sending": "Sending the recording…"
+  },
+  "errors": {
+    "not_audio": "That doesn't look like an audio file. Try MP3, M4A, WAV, FLAC or OGG.",
+    "too_large": "The file is over {mb} MB.",
+    "too_long": "The recording is longer than {minutes} minutes.",
+    "empty": "The recording is empty or too short.",
+    "silent": "The recording is silent.",
+    "busy": "Too many recordings are waiting. Try again in a few minutes.",
+    "network": "Can't reach the server. Check the connection and try again.",
+    "expired": "This transcription no longer exists: they're deleted an hour after the last visit.",
+    "internal": "Something went wrong on the server. Try again."
   }
 }

@@ -19,5 +19,23 @@
   "footer": {
     "privacy": "Nagrania są przetwarzane i usuwane, niczego nie przechowujemy.",
     "model": "Transkrypcja: model Transkun (MIT)."
+  },
+  "upload": {
+    "drop": "Upuść tu nagranie fortepianu",
+    "choose": "Wybierz plik",
+    "formats": "MP3, M4A, WAV, FLAC lub OGG",
+    "limits": "MP3, M4A, WAV, FLAC lub OGG, do {mb} MB i {minutes} minut",
+    "sending": "Wysyłam nagranie…"
+  },
+  "errors": {
+    "not_audio": "To nie wygląda na plik dźwiękowy. Spróbuj MP3, M4A, WAV, FLAC albo OGG.",
+    "too_large": "Plik ma więcej niż {mb} MB.",
+    "too_long": "Nagranie jest dłuższe niż {minutes} minut.",
+    "empty": "Nagranie jest puste albo za krótkie.",
+    "silent": "W nagraniu jest cisza.",
+    "busy": "Czeka zbyt wiele nagrań. Spróbuj za kilka minut.",
+    "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
+    "expired": "Tej transkrypcji już nie ma: usuwamy je godzinę po ostatniej wizycie.",
+    "internal": "Coś poszło nie tak na serwerze. Spróbuj ponownie."
   }
 }
