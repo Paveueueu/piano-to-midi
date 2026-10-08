@@ -37,5 +37,16 @@
     "network": "Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.",
     "expired": "Tej transkrypcji już nie ma: usuwamy je godzinę po ostatniej wizycie.",
     "internal": "Coś poszło nie tak na serwerze. Spróbuj ponownie."
+  },
+  "job": {
+    "another": "Przetwórz inne nagranie",
+    "next": "Twoje nagranie jest następne…",
+    "waiting": "Przed Twoim nagraniem czeka {n}… | Przed Twoim nagraniem czekają {n}… | Przed Twoim nagraniem czeka {n}…",
+    "listening": "Słucham każdej nuty…",
+    "remaining": "zostało ok. {time}",
+    "failed": "Nie udało się przetworzyć pliku {name}."
+  },
+  "result": {
+    "summary": "{notes} nut w {time}"
   }
 }

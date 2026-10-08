@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   // Language from the browser, then a cookie; URLs are the same in both.
   i18n: {
     strategy: 'no_prefix',
+    vueI18n: './i18n.config.ts',
     defaultLocale: 'en',
     locales: [
       { code: 'en', language: 'en-GB', name: 'English', file: 'en.json' },

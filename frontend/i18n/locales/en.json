@@ -37,5 +37,16 @@
     "network": "Can't reach the server. Check the connection and try again.",
     "expired": "This transcription no longer exists: they're deleted an hour after the last visit.",
     "internal": "Something went wrong on the server. Try again."
+  },
+  "job": {
+    "another": "Transcribe another recording",
+    "next": "Next in line…",
+    "waiting": "{n} recording ahead of yours… | {n} recordings ahead of yours…",
+    "listening": "Listening to every note…",
+    "remaining": "about {time} left",
+    "failed": "Couldn't transcribe {name}."
+  },
+  "result": {
+    "summary": "{notes} notes in {time}"
   }
 }
