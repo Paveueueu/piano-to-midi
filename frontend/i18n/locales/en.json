@@ -48,5 +48,14 @@
   },
   "result": {
     "summary": "{notes} notes in {time}"
+  },
+  "roll": {
+    "label": "Piano roll: {notes} notes over {time}",
+    "legend": "A stronger colour means the note was played harder. The lane below shows the sustain pedal.",
+    "legendHands": "Blue: right hand, orange: left hand. A stronger colour means a harder note.",
+    "pedal": "Ped.",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fit": "Whole piece"
   }
 }

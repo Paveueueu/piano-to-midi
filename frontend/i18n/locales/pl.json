@@ -48,5 +48,14 @@
   },
   "result": {
     "summary": "{notes} nut w {time}"
+  },
+  "roll": {
+    "label": "Rolka pianolowa: {notes} nut, {time}",
+    "legend": "Mocniejszy kolor to mocniej zagrana nuta. Pasek pod spodem pokazuje pedał.",
+    "legendHands": "Niebieskie: prawa ręka, pomarańczowe: lewa. Mocniejszy kolor to mocniej zagrana nuta.",
+    "pedal": "Ped.",
+    "zoomIn": "Przybliż",
+    "zoomOut": "Oddal",
+    "fit": "Cały utwór"
   }
 }
