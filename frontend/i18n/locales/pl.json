@@ -10,12 +10,6 @@
   "lang": {
     "label": "Język"
   },
-  "api": {
-    "label": "Serwer",
-    "ok": "gotowy",
-    "down": "niedostępny",
-    "checking": "sprawdzam…"
-  },
   "footer": {
     "privacy": "Nagrania są przetwarzane i usuwane, niczego nie przechowujemy.",
     "model": "Transkrypcja: model Transkun (MIT)."
@@ -48,7 +42,14 @@
   },
   "result": {
     "summary": "{notes} nut w {time}",
-    "tempo": "ok. {bpm} BPM"
+    "tempo": "ok. {bpm} BPM",
+    "download": "Pobierz MIDI",
+    "downloadHint": "Z ustawieniami widocznymi powyżej.",
+    "delete": "Usuń teraz",
+    "confirmDelete": "Usunąć nagranie i transkrypcję?",
+    "yesDelete": "Tak, usuń",
+    "cancel": "Anuluj",
+    "kept": "Przechowujemy je godzinę od ostatniej wizyty, potem usuwamy automatycznie."
   },
   "roll": {
     "label": "Rolka pianolowa: {notes} nut, {time}",

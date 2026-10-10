@@ -10,12 +10,6 @@
   "lang": {
     "label": "Language"
   },
-  "api": {
-    "label": "Server",
-    "ok": "ready",
-    "down": "unreachable",
-    "checking": "checking…"
-  },
   "footer": {
     "privacy": "Recordings are processed and deleted; nothing is kept.",
     "model": "Transcription by the Transkun model (MIT)."
@@ -48,7 +42,14 @@
   },
   "result": {
     "summary": "{notes} notes in {time}",
-    "tempo": "about {bpm} BPM"
+    "tempo": "about {bpm} BPM",
+    "download": "Download MIDI",
+    "downloadHint": "With the settings shown above.",
+    "delete": "Delete now",
+    "confirmDelete": "Delete the recording and transcription?",
+    "yesDelete": "Yes, delete",
+    "cancel": "Cancel",
+    "kept": "Kept for an hour after your last visit, then deleted automatically."
   },
   "roll": {
     "label": "Piano roll: {notes} notes over {time}",

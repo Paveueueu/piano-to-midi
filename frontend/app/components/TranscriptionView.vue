@@ -11,7 +11,23 @@ const options = ref<Options | null>(null)
 const base = computed(() => auto.value?.options ?? info.value?.defaults ?? null)
 const arrangement = shallowRef<Arrangement | null>(null)
 const loading = ref(false)
-const player = usePlayer(arrangement, useRecordings().url(props.job.id))
+const recordings = useRecordings()
+const player = usePlayer(arrangement, recordings.url(props.job.id))
+
+const midiUrl = computed(() => (options.value ? api.midiUrl(props.job.id, options.value) : null))
+const confirming = ref(false)
+const deleting = ref(false)
+
+async function remove() {
+  deleting.value = true
+  player.pause()
+  try {
+    await api.deleteJob(props.job.id)
+  }
+  catch { /* already gone */ }
+  recordings.forget(props.job.id)
+  await navigateTo('/')
+}
 
 onMounted(async () => {
   info.value = await api.optionsInfo()
@@ -78,5 +94,36 @@ watch(options, (o) => {
     </div>
 
     <SettingsPanel v-if="base && options" v-model:options="options" :base="base" :auto="auto" :arrangement="arrangement" />
+
+    <div class="flex flex-wrap items-center gap-3 border-t border-line pt-5">
+      <a
+        v-if="midiUrl"
+        :href="midiUrl"
+        class="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 font-medium text-accent-ink hover:opacity-90"
+      >
+        <svg viewBox="0 0 24 24" class="size-5" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.6l3.3-3.3 1.4 1.4L12 17.4l-5.7-5.7 1.4-1.4 3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14v2H5z" /></svg>
+        {{ t('result.download') }}
+      </a>
+      <span class="text-sm text-muted">{{ t('result.downloadHint') }}</span>
+      <div class="ml-auto flex items-center gap-2 text-sm">
+        <template v-if="!confirming">
+          <button type="button" class="cursor-pointer rounded-full border border-line px-3 py-1.5 hover:border-danger hover:text-danger" @click="confirming = true">
+            {{ t('result.delete') }}
+          </button>
+        </template>
+        <template v-else>
+          <span>{{ t('result.confirmDelete') }}</span>
+          <button type="button" class="cursor-pointer rounded-full bg-danger px-3 py-1.5 text-bg disabled:opacity-50" :disabled="deleting" @click="remove">
+            {{ t('result.yesDelete') }}
+          </button>
+          <button type="button" class="cursor-pointer rounded-full border border-line px-3 py-1.5" @click="confirming = false">
+            {{ t('result.cancel') }}
+          </button>
+        </template>
+      </div>
+      <p class="basis-full text-xs text-muted">
+        {{ t('result.kept') }}
+      </p>
+    </div>
   </section>
 </template>

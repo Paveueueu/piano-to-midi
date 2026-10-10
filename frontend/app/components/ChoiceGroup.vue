@@ -5,7 +5,7 @@ const model = defineModel<T>({ required: true })
 </script>
 
 <template>
-  <div role="radiogroup" :aria-label="label" class="flex flex-wrap gap-1">
+  <div role="radiogroup" :aria-label="label" class="flex flex-wrap items-center gap-1">
     <button
       v-for="c in choices"
       :key="c.value"

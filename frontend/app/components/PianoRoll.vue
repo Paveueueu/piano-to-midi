@@ -208,7 +208,7 @@ function zoomBy(factor: number) {
 
 <template>
   <div class="grid gap-2">
-    <div class="flex items-center justify-between text-sm">
+    <div class="flex flex-wrap items-center justify-between gap-2 text-sm">
       <p class="text-muted">
         {{ arrangement.split_key !== null ? t('roll.legendHands') : t('roll.legend') }}
       </p>
@@ -219,7 +219,7 @@ function zoomBy(factor: number) {
         <button type="button" class="size-8 cursor-pointer rounded-full border border-line hover:bg-surface-2" :aria-label="t('roll.zoomIn')" @click="zoomBy(1.6)">
           +
         </button>
-        <button type="button" class="h-8 cursor-pointer rounded-full border border-line px-3 hover:bg-surface-2" @click="zoom = null">
+        <button type="button" class="h-8 cursor-pointer whitespace-nowrap rounded-full border border-line px-3 hover:bg-surface-2" @click="zoom = null">
           {{ t('roll.fit') }}
         </button>
       </div>

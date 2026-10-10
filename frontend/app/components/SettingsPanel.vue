@@ -48,7 +48,7 @@ const onGrid = computed(() => options.value.tempo === 'detected' || options.valu
         {{ t('settings.adjust') }}
       </summary>
 
-      <div class="mt-4 grid gap-5 sm:grid-cols-2">
+      <div class="mt-4 grid items-start gap-5 sm:grid-cols-2">
         <label class="grid gap-1.5">
           <span class="text-sm font-medium">{{ t('settings.sensitivity') }}</span>
           <input
