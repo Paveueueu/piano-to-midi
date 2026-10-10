@@ -47,7 +47,8 @@
     "failed": "Nie udało się przetworzyć pliku {name}."
   },
   "result": {
-    "summary": "{notes} nut w {time}"
+    "summary": "{notes} nut w {time}",
+    "tempo": "ok. {bpm} BPM"
   },
   "roll": {
     "label": "Rolka pianolowa: {notes} nut, {time}",
@@ -57,5 +58,57 @@
     "zoomIn": "Przybliż",
     "zoomOut": "Oddal",
     "fit": "Cały utwór"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "adjust": "Dostosuj",
+    "sensitivity": "Czułość",
+    "fewer": "mniej, pewniejsze nuty",
+    "more": "więcej nut",
+    "shortest": "Najkrótsza nuta: {ms} ms",
+    "range": "Zakres klawiszy",
+    "lowest": "Najniższy klawisz",
+    "highest": "Najwyższy klawisz",
+    "dynamics": "Dynamika",
+    "velocity": {
+      "as_played": "Jak zagrano",
+      "compressed": "Wyrównana",
+      "fixed": "Stała"
+    },
+    "pedal": "Pedał",
+    "pedalMode": {
+      "controller": "Jako pedał (CC64)",
+      "held_notes": "Jako przedłużone nuty",
+      "none": "Pomiń"
+    },
+    "timing": "Czas",
+    "tempo": {
+      "real_time": "Rzeczywisty",
+      "detected": "Tempo utworu"
+    },
+    "bpm": "Tempo w uderzeniach na minutę",
+    "grid": "Kwantyzacja",
+    "gridOff": "Wyłączona",
+    "strength": "Siła: {n}%",
+    "hands": "Ręce",
+    "handsMode": {
+      "one_track": "Jedna ścieżka",
+      "split": "Dwie ścieżki"
+    },
+    "splitAt": "Gdzie dzielić ręce",
+    "splitAuto": "Automatycznie ({key})",
+    "splitFrom": "Prawa ręka od {key}",
+    "reset": "Wróć do automatycznych"
+  },
+  "auto": {
+    "noisy": "Zaszumione nagranie: najcichsze fragmenty są tylko o {db} dB cichsze od najgłośniejszych.",
+    "sensitivityKept": "Czułość bez zmian: żadne inne ustawienie nie oddawało dźwięku lepiej.",
+    "raised": "Czułość podniesiona: pominięto {n} niepewną nutę, bo nie pasowała do dźwięku. | Czułość podniesiona: pominięto {n} niepewne nuty, bo nie pasowały do dźwięku. | Czułość podniesiona: pominięto {n} niepewnych nut, bo nie pasowały do dźwięku.",
+    "lowered": "Czułość obniżona: zostawiono {n} cichą nutę, bo pasuje do dźwięku. | Czułość obniżona: zostawiono {n} ciche nuty, bo pasują do dźwięku. | Czułość obniżona: zostawiono {n} cichych nut, bo pasują do dźwięku.",
+    "steady": "Równy rytm, ok. {bpm} BPM: MIDI ma to tempo, a nuty są przyciągnięte do siatki {grid}.",
+    "free": "Swobodny rytm (średnio ok. {bpm} BPM): zostawiony jak zagrano, bo siatka by go zniekształciła.",
+    "fewNotes": "Za mało nut, żeby ocenić rytm: zostawiony jak zagrano.",
+    "split": "Słychać dwie ręce: prawa od {key}, na osobnych ścieżkach.",
+    "together": "Jedna ścieżka: nuty nie układają się w dwie osobne ręce."
   }
 }
