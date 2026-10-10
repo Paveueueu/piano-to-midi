@@ -77,7 +77,9 @@ export function useApi() {
 
 function toApiError(error: unknown): ApiError {
   const e = error as { statusCode?: number, data?: { detail?: unknown } }
-  const detail = typeof e.data?.detail === 'string' ? e.data.detail : null
   if (!e.statusCode) return new ApiError(0, 'network')
-  return new ApiError(e.statusCode, detail ?? (e.statusCode === 404 ? 'expired' : 'internal'))
+  if (e.statusCode === 404) return new ApiError(404, 'expired')
+  // Only short codes ("too_large", "busy") are reasons; sentences are for people reading the API.
+  const detail = typeof e.data?.detail === 'string' && /^[a-z_]+$/.test(e.data.detail) ? e.data.detail : null
+  return new ApiError(e.statusCode, detail ?? 'internal')
 }
