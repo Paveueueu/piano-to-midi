@@ -110,5 +110,13 @@
     "fewNotes": "Za mało nut, żeby ocenić rytm: zostawiony jak zagrano.",
     "split": "Słychać dwie ręce: prawa od {key}, na osobnych ścieżkach.",
     "together": "Jedna ścieżka: nuty nie układają się w dwie osobne ręce."
+  },
+  "player": {
+    "play": "Odtwórz",
+    "pause": "Pauza",
+    "listen": "Słuchaj",
+    "original": "Nagranie",
+    "noOriginal": "Nagranie jest dostępne tylko w karcie, z której je wgrano.",
+    "midiNote": "MIDI gra prosty wbudowany syntezator, żeby sprawdzić nuty i rytm; w DAW zabrzmi jak wybrany przez Ciebie fortepian."
   }
 }

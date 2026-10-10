@@ -110,5 +110,13 @@
     "fewNotes": "Too few notes to judge the rhythm: timing kept as played.",
     "split": "Two hands heard: right hand from {key}, on separate tracks.",
     "together": "One track: the notes don't form two separate hands."
+  },
+  "player": {
+    "play": "Play",
+    "pause": "Pause",
+    "listen": "Listen to",
+    "original": "Recording",
+    "noOriginal": "The recording is only kept in the tab you uploaded it from.",
+    "midiNote": "MIDI is played by a simple built-in synthesizer, to check notes and timing; in a DAW it will sound like your chosen piano."
   }
 }

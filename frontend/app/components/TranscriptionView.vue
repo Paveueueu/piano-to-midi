@@ -11,7 +11,7 @@ const options = ref<Options | null>(null)
 const base = computed(() => auto.value?.options ?? info.value?.defaults ?? null)
 const arrangement = shallowRef<Arrangement | null>(null)
 const loading = ref(false)
-const position = ref(0)
+const player = usePlayer(arrangement, useRecordings().url(props.job.id))
 
 onMounted(async () => {
   info.value = await api.optionsInfo()
@@ -58,8 +58,23 @@ watch(options, (o) => {
     </div>
 
     <div class="relative">
-      <PianoRoll v-if="arrangement" :arrangement="arrangement" :position="position" :class="loading ? 'opacity-70 transition-opacity' : ''" @seek="position = $event" />
+      <PianoRoll v-if="arrangement" :arrangement="arrangement" :position="player.position.value" :class="loading ? 'opacity-70 transition-opacity' : ''" @seek="player.seek" />
       <div v-else class="h-[350px] animate-pulse rounded-xl bg-surface-2 motion-reduce:animate-none" />
+    </div>
+
+    <div v-if="arrangement" class="grid gap-1">
+      <PlayerBar
+        :playing="player.playing.value"
+        :position="player.position.value"
+        :duration="arrangement.seconds"
+        :source="player.source.value"
+        :has-original="player.hasOriginal"
+        @toggle="player.playing.value ? player.pause() : player.play()"
+        @source="player.setSource"
+      />
+      <p v-if="player.source.value === 'midi'" class="text-xs text-muted">
+        {{ t('player.midiNote') }}
+      </p>
     </div>
 
     <SettingsPanel v-if="base && options" v-model:options="options" :base="base" :auto="auto" :arrangement="arrangement" />
