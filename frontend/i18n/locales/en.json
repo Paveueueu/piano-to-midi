@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Piano to MIDI: turn a piano recording into MIDI",
+    "title": "Piano to MIDI",
     "description": "Upload a piano recording and get an editable MIDI file with notes, dynamics and pedal. Tune the transcription by hand or let it pick the settings."
   },
   "app": {
-    "tagline": "Turn a piano recording into MIDI you can edit.",
-    "lead": "Notes, dynamics and sustain pedal, ready for your DAW. Adjust the transcription to the piece, or let it choose the settings."
+    "tagline": "Turn piano sound into a MIDI file",
+    "lead": "Upload a recording and get a file with the notes you played, ready to open in any music program. The settings pick themselves, but you can change them your way too."
   },
   "lang": {
     "label": "Language"

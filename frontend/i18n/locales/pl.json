@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Piano to MIDI: nagranie fortepianu do MIDI",
+    "title": "Piano to MIDI",
     "description": "Wgraj nagranie fortepianu i pobierz plik MIDI z nutami, dynamiką i pedałem. Dostosuj transkrypcję ręcznie albo pozwól dobrać ustawienia automatycznie."
   },
   "app": {
-    "tagline": "Zamień nagranie fortepianu w MIDI do edycji.",
-    "lead": "Nuty, dynamika i pedał, gotowe do Twojego DAW. Dostosuj transkrypcję do utworu albo pozwól dobrać ustawienia automatycznie."
+    "tagline": "Zamień dźwięk pianina w plik MIDI",
+    "lead": "Wgraj nagranie, a dostaniesz plik z zagranymi nutami, który otworzysz w dowolnym programie muzycznym. Ustawienia dobiorą się same, ale możesz je też zmienić po swojemu."
   },
   "lang": {
     "label": "Język"
