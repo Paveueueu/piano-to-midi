@@ -71,3 +71,11 @@ body {
 .app-wrap {
   @apply mx-auto w-full max-w-4xl px-4 sm:px-6;
 }
+
+/* Scrollable without a scrollbar; the piano roll has its own overview. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
