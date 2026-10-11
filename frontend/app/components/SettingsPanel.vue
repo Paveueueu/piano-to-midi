@@ -35,20 +35,25 @@ const onGrid = computed(() => options.value.tempo === 'detected' || options.valu
 </script>
 
 <template>
-  <div class="grid gap-5">
+  <div class="grid gap-4">
     <div v-if="auto" class="grid gap-2">
-      <p class="text-sm font-medium">
+      <h2 class="font-medium">
         {{ t('settings.title') }}
-      </p>
-      <AutoReasons :reasons="auto.reasons" />
+      </h2>
+      <details class="text-sm">
+        <summary class="w-fit cursor-pointer text-ink-2 hover:text-ink">
+          {{ t('settings.why') }}
+        </summary>
+        <AutoReasons class="mt-2" :reasons="auto.reasons" />
+      </details>
     </div>
 
-    <details class="group grid gap-4 rounded-xl border border-line p-4" open>
-      <summary class="cursor-pointer text-sm font-medium">
-        {{ t('settings.adjust') }}
+    <details class="rounded-xl border border-line">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium">
+        {{ t('settings.advanced') }}
       </summary>
 
-      <div class="mt-4 grid items-start gap-5 sm:grid-cols-2">
+      <div class="grid items-start gap-5 border-t border-line p-4 sm:grid-cols-2">
         <label class="grid gap-1.5">
           <span class="text-sm font-medium">{{ t('settings.sensitivity') }}</span>
           <input
