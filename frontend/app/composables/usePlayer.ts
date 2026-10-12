@@ -144,11 +144,6 @@ export function usePlayer(arrangement: Ref<Arrangement | null>, originalUrl: str
     if (wasPlaying) play()
   }
 
-  // New settings mean new notes: restart from the same spot so what's heard matches.
-  watch(arrangement, () => {
-    if (playing.value && source.value === 'midi') seek(position.value)
-  })
-
   onBeforeUnmount(() => {
     pause()
     ctx?.close()
