@@ -41,28 +41,25 @@
     "failed": "Nie udało się przetworzyć pliku {name}."
   },
   "result": {
-    "summary": "{notes} nut w {time}",
     "tempo": "ok. {bpm} BPM",
     "download": "Pobierz MIDI",
-    "downloadHint": "Z ustawieniami widocznymi powyżej.",
-    "delete": "Usuń teraz",
-    "confirmDelete": "Usunąć nagranie i transkrypcję?",
+    "delete": "Usuń nagranie z serwera",
+    "confirmDelete": "Usunąć je teraz? Inaczej zniknie samo godzinę po ostatniej wizycie.",
     "yesDelete": "Tak, usuń",
     "cancel": "Anuluj",
-    "kept": "Przechowujemy je godzinę od ostatniej wizyty, potem usuwamy automatycznie."
+    "notes": "{n} nuta | {n} nuty | {n} nut",
+    "updating": "Przeliczam nuty…"
   },
   "roll": {
     "label": "Rolka pianolowa: {notes} nut, {time}",
-    "legend": "Mocniejszy kolor to mocniej zagrana nuta. Pasek pod spodem pokazuje pedał.",
-    "legendHands": "Niebieskie: prawa ręka, pomarańczowe: lewa. Mocniejszy kolor to mocniej zagrana nuta.",
     "pedal": "Ped.",
     "zoomIn": "Przybliż",
     "zoomOut": "Oddal",
-    "fit": "Cały utwór"
+    "fit": "Cały utwór",
+    "overview": "Cały utwór: przeciągnij ramkę, żeby przesunąć widok"
   },
   "settings": {
-    "title": "Ustawienia",
-    "adjust": "Dostosuj",
+    "title": "Jak zapisać nuty",
     "sensitivity": "Czułość",
     "fewer": "mniej, pewniejsze nuty",
     "more": "więcej nut",
@@ -99,6 +96,8 @@
     "splitAt": "Gdzie dzielić ręce",
     "splitAuto": "Automatycznie ({key})",
     "splitFrom": "Prawa ręka od {key}",
+    "advanced": "Ustawienia zaawansowane",
+    "why": "Dlaczego takie ustawienia?",
     "reset": "Wróć do automatycznych"
   },
   "auto": {
@@ -118,6 +117,7 @@
     "listen": "Słuchaj",
     "original": "Nagranie",
     "noOriginal": "Nagranie jest dostępne tylko w karcie, z której je wgrano.",
-    "midiNote": "MIDI gra prosty wbudowany syntezator, żeby sprawdzić nuty i rytm; w DAW zabrzmi jak wybrany przez Ciebie fortepian."
+    "midiNote": "MIDI gra prosty wbudowany syntezator, żeby sprawdzić nuty i rytm; w DAW zabrzmi jak wybrany przez Ciebie fortepian.",
+    "start": "Na początek"
   }
 }

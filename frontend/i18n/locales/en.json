@@ -41,28 +41,25 @@
     "failed": "Couldn't transcribe {name}."
   },
   "result": {
-    "summary": "{notes} notes in {time}",
     "tempo": "about {bpm} BPM",
     "download": "Download MIDI",
-    "downloadHint": "With the settings shown above.",
-    "delete": "Delete now",
-    "confirmDelete": "Delete the recording and transcription?",
+    "delete": "Delete the recording from the server",
+    "confirmDelete": "Delete it now? Otherwise it goes by itself an hour after your last visit.",
     "yesDelete": "Yes, delete",
     "cancel": "Cancel",
-    "kept": "Kept for an hour after your last visit, then deleted automatically."
+    "notes": "{n} note | {n} notes",
+    "updating": "Updating the notes…"
   },
   "roll": {
     "label": "Piano roll: {notes} notes over {time}",
-    "legend": "A stronger colour means the note was played harder. The lane below shows the sustain pedal.",
-    "legendHands": "Blue: right hand, orange: left hand. A stronger colour means a harder note.",
     "pedal": "Ped.",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
-    "fit": "Whole piece"
+    "fit": "Whole piece",
+    "overview": "Whole piece: drag the frame to move the view"
   },
   "settings": {
-    "title": "Settings",
-    "adjust": "Adjust",
+    "title": "How to write the notes",
     "sensitivity": "Sensitivity",
     "fewer": "fewer, surer notes",
     "more": "more notes",
@@ -99,6 +96,8 @@
     "splitAt": "Where the hands split",
     "splitAuto": "Automatic ({key})",
     "splitFrom": "Right hand from {key}",
+    "advanced": "Advanced settings",
+    "why": "Why these settings?",
     "reset": "Back to automatic"
   },
   "auto": {
@@ -118,6 +117,7 @@
     "listen": "Listen to",
     "original": "Recording",
     "noOriginal": "The recording is only kept in the tab you uploaded it from.",
-    "midiNote": "MIDI is played by a simple built-in synthesizer, to check notes and timing; in a DAW it will sound like your chosen piano."
+    "midiNote": "MIDI is played by a simple built-in synthesizer, to check notes and timing; in a DAW it will sound like your chosen piano.",
+    "start": "Back to the start"
   }
 }
