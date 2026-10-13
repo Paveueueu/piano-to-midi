@@ -287,22 +287,37 @@ function onPointerUp() {
   emit('seek', seconds)
 }
 
-// Overview: drag the frame, or press elsewhere to centre the view there.
+/** Scroll position that keeps the playhead on screen, clear of the follow zone. */
+function aroundPlayhead(x: number, playhead = shownPosition.value): number {
+  const at = playhead * pxPerSecond.value
+  return Math.min(at - 4, Math.max(at - rollWidth.value + 48, x))
+}
+
+// Pressing outside the overview frame moves the playhead there and centres the frame.
 let grab = 0 // seconds between the pointer and the frame's left edge
+let anchor = 0 // playhead time for this drag
 function overviewTime(e: PointerEvent) {
   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
-  return ((e.clientX - rect.left) / rect.width) * duration.value
+  return Math.max(0, Math.min(duration.value, ((e.clientX - rect.left) / rect.width) * duration.value))
 }
 function onOverviewDown(e: PointerEvent) {
   ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
   const at = overviewTime(e)
   const from = scrollLeft.value / pxPerSecond.value
   const span = rollWidth.value / pxPerSecond.value
-  grab = at >= from && at <= from + span ? at - from : span / 2
-  scrollTo((at - grab) * pxPerSecond.value)
+  anchor = shownPosition.value
+  if (at >= from && at <= from + span) {
+    grab = at - from
+    return
+  }
+  grab = span / 2
+  anchor = at
+  emit('seek', at)
+  scrollTo(aroundPlayhead((at - grab) * pxPerSecond.value, anchor))
 }
 function onOverviewMove(e: PointerEvent) {
-  if ((e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) scrollTo((overviewTime(e) - grab) * pxPerSecond.value)
+  if (!(e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) return
+  scrollTo(aroundPlayhead((overviewTime(e) - grab) * pxPerSecond.value, anchor))
 }
 
 function zoomBy(factor: number) {
@@ -310,7 +325,7 @@ function zoomBy(factor: number) {
   const centre = el ? (el.scrollLeft + rollWidth.value / 2) / pxPerSecond.value : 0
   const next = Math.min(400, Math.max(fitZoom.value, pxPerSecond.value * factor))
   zoom.value = next <= fitZoom.value ? null : next
-  nextTick(() => scrollTo(centre * pxPerSecond.value - rollWidth.value / 2))
+  nextTick(() => scrollTo(aroundPlayhead(centre * pxPerSecond.value - rollWidth.value / 2)))
 }
 </script>
 
