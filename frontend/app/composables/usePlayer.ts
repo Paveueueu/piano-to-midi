@@ -68,7 +68,17 @@ export function usePlayer(arrangement: Ref<Arrangement | null>, originalUrl: str
       oscillators.forEach(o => o.stop(at + 0.5))
     }
     release(Math.max(until, when + 0.05))
-    voices.push({ stop: (at: number) => release(Math.max(at, when)) })
+    voices.push({
+      stop: (at: number) => {
+        // Drop notes that haven't started: releasing them at their start would play them at full gain.
+        if (at < when) {
+          env.disconnect()
+          oscillators.forEach(o => o.stop(at))
+          return
+        }
+        release(at)
+      },
+    })
   }
 
   function schedule() {
