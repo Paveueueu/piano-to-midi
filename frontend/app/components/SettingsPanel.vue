@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Arrangement, AutoSettings, Options } from '~/types/api'
+import type { Arrangement, Options } from '~/types/api'
 
 const props = defineProps<{
   base: Options
-  auto: AutoSettings | null
   arrangement: Arrangement | null
 }>()
 const options = defineModel<Options>('options', { required: true })
@@ -36,18 +35,6 @@ const onGrid = computed(() => options.value.tempo === 'detected' || options.valu
 
 <template>
   <div class="grid gap-4">
-    <div v-if="auto" class="grid gap-2">
-      <h2 class="font-medium">
-        {{ t('settings.title') }}
-      </h2>
-      <details class="text-sm">
-        <summary class="w-fit cursor-pointer text-ink-2 hover:text-ink">
-          {{ t('settings.why') }}
-        </summary>
-        <AutoReasons class="mt-2" :reasons="auto.reasons" />
-      </details>
-    </div>
-
     <details class="rounded-xl border border-line">
       <summary class="cursor-pointer px-4 py-3 text-sm font-medium">
         {{ t('settings.advanced') }}

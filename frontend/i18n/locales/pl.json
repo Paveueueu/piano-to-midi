@@ -43,7 +43,7 @@
   "result": {
     "tempo": "ok. {bpm} BPM",
     "download": "Pobierz MIDI",
-    "delete": "Usuń nagranie z serwera",
+    "delete": "Usuń teraz",
     "confirmDelete": "Usunąć je teraz? Inaczej zniknie samo godzinę po ostatniej wizycie.",
     "yesDelete": "Tak, usuń",
     "cancel": "Anuluj",
@@ -59,7 +59,6 @@
     "overview": "Cały utwór: przeciągnij ramkę, żeby przesunąć widok"
   },
   "settings": {
-    "title": "Jak zapisać nuty",
     "sensitivity": "Czułość",
     "fewer": "mniej, pewniejsze nuty",
     "more": "więcej nut",
@@ -97,19 +96,7 @@
     "splitAuto": "Automatycznie ({key})",
     "splitFrom": "Prawa ręka od {key}",
     "advanced": "Ustawienia zaawansowane",
-    "why": "Dlaczego takie ustawienia?",
     "reset": "Wróć do automatycznych"
-  },
-  "auto": {
-    "noisy": "Zaszumione nagranie: najcichsze fragmenty są tylko o {db} dB cichsze od najgłośniejszych.",
-    "sensitivityKept": "Czułość bez zmian: żadne inne ustawienie nie oddawało dźwięku lepiej.",
-    "raised": "Czułość podniesiona: pominięto {n} niepewną nutę, bo nie pasowała do dźwięku. | Czułość podniesiona: pominięto {n} niepewne nuty, bo nie pasowały do dźwięku. | Czułość podniesiona: pominięto {n} niepewnych nut, bo nie pasowały do dźwięku.",
-    "lowered": "Czułość obniżona: zostawiono {n} cichą nutę, bo pasuje do dźwięku. | Czułość obniżona: zostawiono {n} ciche nuty, bo pasują do dźwięku. | Czułość obniżona: zostawiono {n} cichych nut, bo pasują do dźwięku.",
-    "steady": "Równy rytm, ok. {bpm} BPM: MIDI ma to tempo, a nuty są przyciągnięte do siatki {grid}.",
-    "free": "Swobodny rytm (średnio ok. {bpm} BPM): zostawiony jak zagrano, bo siatka by go zniekształciła.",
-    "fewNotes": "Za mało nut, żeby ocenić rytm: zostawiony jak zagrano.",
-    "split": "Słychać dwie ręce: prawa od {key}, na osobnych ścieżkach.",
-    "together": "Jedna ścieżka: nuty nie układają się w dwie osobne ręce."
   },
   "player": {
     "play": "Odtwórz",

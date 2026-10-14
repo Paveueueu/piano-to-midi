@@ -43,7 +43,7 @@
   "result": {
     "tempo": "about {bpm} BPM",
     "download": "Download MIDI",
-    "delete": "Delete the recording from the server",
+    "delete": "Delete now",
     "confirmDelete": "Delete it now? Otherwise it goes by itself an hour after your last visit.",
     "yesDelete": "Yes, delete",
     "cancel": "Cancel",
@@ -59,7 +59,6 @@
     "overview": "Whole piece: drag the frame to move the view"
   },
   "settings": {
-    "title": "How to write the notes",
     "sensitivity": "Sensitivity",
     "fewer": "fewer, surer notes",
     "more": "more notes",
@@ -97,19 +96,7 @@
     "splitAuto": "Automatic ({key})",
     "splitFrom": "Right hand from {key}",
     "advanced": "Advanced settings",
-    "why": "Why these settings?",
     "reset": "Back to automatic"
-  },
-  "auto": {
-    "noisy": "Noisy recording: the quietest moments are only {db} dB below the loudest.",
-    "sensitivityKept": "Sensitivity left as it is: no other setting explained the sound better.",
-    "raised": "Sensitivity raised: {n} doubtful note left out, as it didn't match the sound. | Sensitivity raised: {n} doubtful notes left out, as they didn't match the sound.",
-    "lowered": "Sensitivity lowered: {n} quiet note kept, as it matches the sound. | Sensitivity lowered: {n} quiet notes kept, as they match the sound.",
-    "steady": "Steady rhythm at about {bpm} BPM: the MIDI follows that tempo and notes are pulled towards a {grid} grid.",
-    "free": "Free timing (around {bpm} BPM on average): kept as played, as a grid would distort it.",
-    "fewNotes": "Too few notes to judge the rhythm: timing kept as played.",
-    "split": "Two hands heard: right hand from {key}, on separate tracks.",
-    "together": "One track: the notes don't form two separate hands."
   },
   "player": {
     "play": "Play",

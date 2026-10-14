@@ -140,7 +140,7 @@ function toggle() {
       @source="player.setSource"
     />
 
-    <SettingsPanel v-if="base && options" v-model:options="options" :base="base" :auto="auto" :arrangement="arrangement" />
+    <SettingsPanel v-if="base && options" v-model:options="options" :base="base" :arrangement="arrangement" />
 
     <div class="flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
       <button v-if="!confirming" type="button" class="cursor-pointer text-muted underline decoration-line-strong underline-offset-2 hover:text-danger" @click="confirming = true">
