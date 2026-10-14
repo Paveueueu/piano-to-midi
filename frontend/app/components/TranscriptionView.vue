@@ -142,8 +142,8 @@ function toggle() {
 
     <SettingsPanel v-if="base && options" v-model:options="options" :base="base" :arrangement="arrangement" />
 
-    <div class="flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
-      <button v-if="!confirming" type="button" class="cursor-pointer text-muted underline decoration-line-strong underline-offset-2 hover:text-danger" @click="confirming = true">
+    <div class="flex flex-wrap items-center justify-end gap-2 text-sm">
+      <button v-if="!confirming" type="button" class="cursor-pointer rounded-full border border-line px-3 py-1.5 hover:border-danger hover:text-danger" @click="confirming = true">
         {{ t('result.delete') }}
       </button>
       <template v-else>
