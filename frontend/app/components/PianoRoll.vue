@@ -188,10 +188,12 @@ function drawOverview() {
   g.fillRect(Math.round(shownPosition.value * sx), 0, 1, OVERVIEW)
 }
 
+// At most one draw per frame. Keep a pending one rather than replace it, or playback starves it.
 let frame = 0
 function redraw() {
-  cancelAnimationFrame(frame)
+  if (frame) return
   frame = requestAnimationFrame(() => {
+    frame = 0
     draw()
     if (zoomedIn.value) drawOverview()
   })
@@ -217,7 +219,10 @@ watch(() => [props.arrangement, pxPerSecond.value, scrollLeft.value, viewWidth.v
 watch(shownPosition, () => {
   if (zoomedIn.value) redraw()
 })
-watch(zoomedIn, () => nextTick(redraw))
+watch(zoomedIn, () => nextTick(() => {
+  scrollTo(aroundPlayhead(scrollLeft.value)) // back to fit: no offset left over
+  redraw()
+}))
 
 function onScroll() {
   scrollLeft.value = scroller.value?.scrollLeft ?? 0
@@ -230,9 +235,13 @@ function scrollTo(x: number) {
   scrollLeft.value = el.scrollLeft
 }
 
-// Keep the playhead in view while playing.
+// Follow the playhead while playing; while the overview frame is held, move the frame instead.
 watch(() => props.position, (s) => {
   if (dragging.value !== null) return
+  if (overviewHeld) {
+    scrollTo(aroundPlayhead(overviewWanted))
+    return
+  }
   const x = s * pxPerSecond.value
   if (x < scrollLeft.value || x > scrollLeft.value + rollWidth.value - 40) scrollTo(x - rollWidth.value * 0.2)
 })
@@ -295,29 +304,35 @@ function aroundPlayhead(x: number, playhead = shownPosition.value): number {
 
 // Pressing outside the overview frame moves the playhead there and centres the frame.
 let grab = 0 // seconds between the pointer and the frame's left edge
-let anchor = 0 // playhead time for this drag
+let overviewHeld = false
+let overviewWanted = 0 // content px the pointer asks for; the playhead may hold it back
 function overviewTime(e: PointerEvent) {
   const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
   return Math.max(0, Math.min(duration.value, ((e.clientX - rect.left) / rect.width) * duration.value))
 }
 function onOverviewDown(e: PointerEvent) {
   ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+  overviewHeld = true
   const at = overviewTime(e)
   const from = scrollLeft.value / pxPerSecond.value
   const span = rollWidth.value / pxPerSecond.value
-  anchor = shownPosition.value
   if (at >= from && at <= from + span) {
     grab = at - from
+    overviewWanted = scrollLeft.value
     return
   }
   grab = span / 2
-  anchor = at
+  overviewWanted = (at - grab) * pxPerSecond.value
   emit('seek', at)
-  scrollTo(aroundPlayhead((at - grab) * pxPerSecond.value, anchor))
+  scrollTo(aroundPlayhead(overviewWanted, at))
 }
 function onOverviewMove(e: PointerEvent) {
-  if (!(e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) return
-  scrollTo(aroundPlayhead((overviewTime(e) - grab) * pxPerSecond.value, anchor))
+  if (!overviewHeld) return
+  overviewWanted = (overviewTime(e) - grab) * pxPerSecond.value
+  scrollTo(aroundPlayhead(overviewWanted))
+}
+function onOverviewUp() {
+  overviewHeld = false
 }
 
 function zoomBy(factor: number) {
@@ -383,6 +398,8 @@ function zoomBy(factor: number) {
       :aria-valuenow="Math.round((scrollLeft / Math.max(1, contentWidth - rollWidth)) * 100)"
       @pointerdown="onOverviewDown"
       @pointermove="onOverviewMove"
+      @pointerup="onOverviewUp"
+      @pointercancel="onOverviewUp"
     />
   </div>
 </template>
