@@ -4,6 +4,8 @@ Turns a piano recording into a MIDI file with notes, dynamics and pedal, ready t
 
 ![A transcribed recording in Piano to MIDI: piano roll with both hands and pedal, playback and MIDI download](screenshot.png)
 
+## Usage
+
 ```bash
 cd backend && uv sync && uv run uvicorn pianotomidi.main:app --port 8100
 ```
