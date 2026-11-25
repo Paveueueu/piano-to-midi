@@ -12,6 +12,7 @@ const base = computed(() => auto.value?.options ?? info.value?.defaults ?? null)
 const arrangement = shallowRef<Arrangement | null>(null)
 const loading = ref(false)
 const recordings = useRecordings()
+const recent = useRecent()
 const player = usePlayer(arrangement, recordings.url(props.job.id))
 
 const midiUrl = computed(() => (options.value ? api.midiUrl(props.job.id, options.value) : null))
@@ -27,6 +28,7 @@ async function remove() {
   }
   catch { /* already gone */ }
   recordings.forget(props.job.id)
+  recent.remove(props.job.id)
   await navigateTo('/')
 }
 

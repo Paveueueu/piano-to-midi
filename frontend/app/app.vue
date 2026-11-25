@@ -8,17 +8,17 @@ useSeoMeta({ title: () => t('meta.title'), description: () => t('meta.descriptio
 
 <template>
   <div class="flex min-h-dvh flex-col">
-    <header class="app-wrap flex items-center justify-between py-5">
-      <NuxtLink to="/" class="text-lg font-semibold tracking-tight">
+    <header class="app-wrap flex h-16 items-center justify-between gap-3">
+      <NuxtLink to="/" class="text-[15px] font-semibold tracking-tight">
         Piano to MIDI
       </NuxtLink>
-      <div class="flex gap-1 text-sm" role="group" :aria-label="t('lang.label')">
+      <div class="flex rounded-full border border-line p-0.5 text-xs font-medium" role="group" :aria-label="t('lang.label')">
         <button
           v-for="l in locales"
           :key="l.code"
           type="button"
           class="cursor-pointer rounded-full px-2.5 py-1 uppercase tracking-wide"
-          :class="l.code === locale ? 'bg-ink text-bg' : 'text-muted hover:text-ink'"
+          :class="l.code === locale ? 'bg-surface text-ink shadow-card' : 'text-muted hover:text-ink'"
           :aria-pressed="l.code === locale"
           :lang="l.language"
           :title="l.name"
@@ -29,7 +29,7 @@ useSeoMeta({ title: () => t('meta.title'), description: () => t('meta.descriptio
       </div>
     </header>
 
-    <main class="app-wrap flex-1 pb-16 pt-4 sm:pt-8">
+    <main class="app-wrap flex-1 pb-16 pt-6 sm:pt-10">
       <NuxtPage />
     </main>
 

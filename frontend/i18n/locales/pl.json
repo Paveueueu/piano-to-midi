@@ -1,25 +1,34 @@
 {
   "meta": {
     "title": "Piano to MIDI",
-    "description": "Wgraj nagranie fortepianu i pobierz plik MIDI z nutami, dynamiką i pedałem. Dostosuj transkrypcję ręcznie albo pozwól dobrać ustawienia automatycznie."
+    "description": "Wgraj nagranie pianina i pobierz plik MIDI z nutami, dynamiką i pedałem. Dostosuj transkrypcję ręcznie albo pozwól dobrać ustawienia automatycznie."
   },
-  "app": {
-    "tagline": "Zamień dźwięk pianina w plik MIDI",
-    "lead": "Wgraj nagranie, a dostaniesz plik z zagranymi nutami, który otworzysz w dowolnym programie muzycznym. Ustawienia dobiorą się same, ale możesz je też zmienić po swojemu."
+  "home": {
+    "title": "Nowe nagranie",
+    "lead": "Wgraj nagranie pianina, a dostaniesz plik MIDI z nutami, dynamiką i pedałem, gotowy do edycji w DAW."
   },
   "lang": {
     "label": "Język"
   },
   "footer": {
-    "privacy": "Nagrania są przetwarzane i usuwane, niczego nie przechowujemy.",
+    "privacy": "Nagrania i wynikowy plik MIDI trzymamy tylko tymczasowo i usuwamy automatycznie godzinę po ostatnim otwarciu.",
     "model": "Transkrypcja: model Transkun (MIT)."
   },
   "upload": {
-    "drop": "Upuść tu nagranie fortepianu",
+    "drop": "Przeciągnij tu nagranie",
     "choose": "Wybierz plik",
     "formats": "MP3, M4A, WAV, FLAC lub OGG",
     "limits": "MP3, M4A, WAV, FLAC lub OGG, do {mb} MB i {minutes} minut",
-    "sending": "Wysyłam nagranie…"
+    "sending": "Wysyłam nagranie…",
+    "release": "Puść, żeby wysłać"
+  },
+  "recent": {
+    "title": "Ostatnie nagrania",
+    "note": "Nagrania znikną godzinę po ostatnim otwarciu.",
+    "running": "Przetwarzam… {n}%",
+    "queued": "Czeka w kolejce",
+    "failed": "Nie udało się przetworzyć",
+    "justNow": "przed chwilą"
   },
   "errors": {
     "not_audio": "To nie wygląda na plik dźwiękowy. Spróbuj MP3, M4A, WAV, FLAC albo OGG.",
@@ -104,7 +113,7 @@
     "listen": "Słuchaj",
     "original": "Nagranie",
     "noOriginal": "Nagranie jest dostępne tylko w karcie, z której je wgrano.",
-    "midiNote": "MIDI gra prosty wbudowany syntezator, żeby sprawdzić nuty i rytm; w DAW zabrzmi jak wybrany przez Ciebie fortepian.",
+    "midiNote": "MIDI gra prosty wbudowany syntezator, żeby sprawdzić nuty i rytm; w DAW zabrzmi jak wybrane przez Ciebie pianino.",
     "start": "Na początek"
   }
 }

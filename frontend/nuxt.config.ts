@@ -43,7 +43,7 @@ export default defineNuxtConfig({
   },
 
   fonts: {
-    families: [{ name: 'Geist', provider: 'google', weights: [400, 500, 600, 700] }],
+    families: [{ name: 'Instrument Sans', provider: 'google', weights: [400, 500, 600, 700] }],
   },
 
   typescript: {

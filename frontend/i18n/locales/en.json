@@ -3,23 +3,32 @@
     "title": "Piano to MIDI",
     "description": "Upload a piano recording and get an editable MIDI file with notes, dynamics and pedal. Tune the transcription by hand or let it pick the settings."
   },
-  "app": {
-    "tagline": "Turn piano sound into a MIDI file",
-    "lead": "Upload a recording and get a file with the notes you played, ready to open in any music program. The settings pick themselves, but you can change them your way too."
+  "home": {
+    "title": "New recording",
+    "lead": "Upload a piano recording and get a MIDI file with the notes, dynamics and pedal, ready to edit in a DAW."
   },
   "lang": {
     "label": "Language"
   },
   "footer": {
-    "privacy": "Recordings are processed and deleted; nothing is kept.",
+    "privacy": "Recordings and the resulting MIDI files are kept only for a while and deleted automatically an hour after they were last opened.",
     "model": "Transcription by the Transkun model (MIT)."
   },
   "upload": {
-    "drop": "Drop a piano recording here",
+    "drop": "Drag a recording here",
     "choose": "Choose a file",
     "formats": "MP3, M4A, WAV, FLAC or OGG",
     "limits": "MP3, M4A, WAV, FLAC or OGG, up to {mb} MB and {minutes} minutes",
-    "sending": "Sending the recording…"
+    "sending": "Sending the recording…",
+    "release": "Release to upload"
+  },
+  "recent": {
+    "title": "Recent recordings",
+    "note": "Recordings disappear an hour after they were last opened.",
+    "running": "Transcribing… {n}%",
+    "queued": "Waiting in line",
+    "failed": "Couldn't transcribe",
+    "justNow": "just now"
   },
   "errors": {
     "not_audio": "That doesn't look like an audio file. Try MP3, M4A, WAV, FLAC or OGG.",

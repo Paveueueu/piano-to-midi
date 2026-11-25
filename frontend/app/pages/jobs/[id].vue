@@ -5,6 +5,7 @@ import { ApiError } from '~/composables/useApi'
 const { t } = useI18n()
 const route = useRoute()
 const api = useApi()
+const recent = useRecent()
 const id = computed(() => String(route.params.id))
 
 const job = ref<Job | null>(null)
@@ -18,7 +19,10 @@ async function poll() {
   }
   catch (error: unknown) {
     problem.value = error instanceof ApiError ? error.reason : 'internal'
-    if (problem.value === 'expired') return
+    if (problem.value === 'expired') {
+      recent.remove(id.value)
+      return
+    }
   }
   if (!job.value || job.value.status === 'queued' || job.value.status === 'running') {
     timer = setTimeout(poll, 1000)
